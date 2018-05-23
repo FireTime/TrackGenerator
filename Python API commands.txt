@@ -1,0 +1,87 @@
+Python API commands for AirSim
+
+# Connection Commands
+client = CarClient() # create a new car client
+client.confirmConnection() # Verrify connection before starting
+client.enableApiControl(True) # Let the script take over control of the car
+car_controls = CarControls() # Create a new vehicle control object
+
+# Time Control
+client.simPause(True) # pause AirSim simulation
+client.simContinueForTime(10) # Run AirSim simulation for specified time in seconds and then pause
+time.sleep(3) # Pause script
+
+# Vehicle state information
+car_state = client.getCarState() # Get vehicle state info
+
+car_state.speed     # Current Vehicle Speed
+car_state.gear      # Current Vehicle Gear
+car_state.rpm       # Current Vehicle RPM
+car_state.maxrpm    # Current RPM limiter
+car_state.handbrake # Handbreak state
+car_state.collision # Colision State
+car_state.kinematics_true # Ground truth data for vehicle kinematics, Important values are below
+ car_state.kinematics_true.position.x_val # GPS X postion
+ car_state.kinematics_true.position.y_val # GPS Y postion
+ car_state.kinematics_true.position.z_val # GPS Z postion
+ car_state.kinematics_true.orientation.w_val # orientation w Quaternion
+ car_state.kinematics_true.orientation.x_val # orientation x Quaternion
+ car_state.kinematics_true.orientation.y_val # orientation y Quaternion
+ car_state.kinematics_true.orientation.z_val # orientation z Quaternion
+ car_state.kinematics_true.linear_velocity.x_val # x velocity
+ car_state.kinematics_true.linear_velocity.y_val # y velocity
+ car_state.kinematics_true.linear_velocity.z_val # z velocity
+timestamp # Simulation global timer
+
+#break out car controls
+
+car_controls.throttle # float between 0 and 1 to set throttle posiiton 
+car_controls.steering # float between 0 and 1 to set stering angle 
+car_controls.brake    # float between 0 and 1 to set break posiiton 
+car_controls.is_manual_gear # Set manual transmission mode on/off
+car_controls.manual_gear #  manual transmission gear selection
+car_controls.gear_immediate #  disable shift time delay
+
+client.setCarControls(car_controls) # Push updated controlls to AirSim
+
+
+client.reset() # Reset vehicle to start
+
+client.enableApiControl(False) # Release script control of car, return to keyboard input
+
+client.simPrintLogMessage("hello") # Print a message to AirSim
+
+collision_info = client.getCollisionInfo() # Get collision info
+
+client.setCameraOrientation(0,quad) # Set camera angle
+
+
+
+Settings for Car
+{
+  "CaptureSettings": [
+    {
+      "ImageType": 0,
+      "Width": 1280,
+      "Height": 720
+    }
+  ],
+  "SimMode": "Car",
+  "UsageScenario": "ComputerVision",
+  "SettingsVersion": 1.0
+}
+
+
+
+Settings for CV mode
+{
+  "CaptureSettings": [
+    {
+      "ImageType": 0,
+      "Width": 1280,
+      "Height": 720
+    }
+  ],
+  "UsageScenario": "ComputerVision",
+  "SettingsVersion": 1.0
+}
